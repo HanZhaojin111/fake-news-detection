@@ -9,7 +9,7 @@
 - 探索性数据分析 (EDA)
 - 文本预处理与序列化
 - 5 个模型的训练与对比 (Logistic Regression / Linear SVM / Random Forest / LSTM / Bi-LSTM)
-- 推理 demo
+- 推理 demo（命令行 + Gradio Web 交互界面）
 - 完整的 Word 实验报告
 
 ## 核心结果
@@ -33,7 +33,8 @@ project/
 │   ├── 04_train_lstm.py                # NumPy 实现的 LSTM/Bi-LSTM (沙箱可跑)
 │   ├── 04b_train_lstm_pytorch.py       # PyTorch 实现的 LSTM/Bi-LSTM (本地跑全量)
 │   ├── 05_compare.py                   # 模型综合对比
-│   ├── 06_predict.py                   # 推理 demo
+│   ├── 06_predict.py                   # 推理 demo（命令行）
+│   ├── app.py                          # Gradio Web 交互界面
 │   └── build_report.js                 # 报告生成 (docx-js)
 ├── results/                            # 模型权重、指标、序列化数据
 │   ├── baseline_metrics.json
@@ -75,6 +76,12 @@ pip install numpy pandas scikit-learn matplotlib seaborn
 pip install torch
 ```
 
+可选 (运行 Web 界面)：
+
+```bash
+pip install gradio
+```
+
 ## 复现实验
 
 ```bash
@@ -96,11 +103,17 @@ python src/04b_train_lstm_pytorch.py --epochs 4 --max_len 300
 # 5) 综合对比图
 python src/05_compare.py
 
-# 6) 推理 demo
+# 6) 推理 demo（命令行）
 python src/06_predict.py --text "WASHINGTON (Reuters) - The U.S. Senate ..."
+
+# 7) Web 交互界面
+python app.py
+# 启动后浏览器访问 http://127.0.0.1:7860
 ```
 
 ## 推理示例
+
+**命令行：**
 
 ```
 $ python src/06_predict.py --text "WASHINGTON (Reuters) - The U.S. Senate on Tuesday..."
@@ -111,6 +124,10 @@ $ python src/06_predict.py --text "BREAKING: Hillary Clinton was caught running 
 [loaded] best baseline = LinearSVM
 Prediction: Fake  (confidence ≈ 0.8849)
 ```
+
+**Web 界面：**
+
+运行 `python app.py` 后在浏览器打开 `http://127.0.0.1:7860`，在文本框粘贴新闻内容，点击「🔍 检测」即可获得结果与置信度。界面内置 4 条典型样例，支持一键测试。
 
 ## 关键发现
 
