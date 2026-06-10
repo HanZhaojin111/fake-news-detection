@@ -10,14 +10,16 @@
 - 文本预处理与序列化
 - 5 个模型的训练与对比 (Logistic Regression / Linear SVM / Random Forest / LSTM / Bi-LSTM)
 - 推理 demo（命令行 + Gradio Web 交互界面）
-- 完整的 Word 实验报告
+- 完整的实验报告 (PDF)
+
 ## 数据集
 
 本项目使用 [ISOT Fake News Dataset](https://onlineacademiccommunity.uvic.ca/isot/2022/11/27/fake-news-detection-datasets/)。
 
-请前往上方链接下载 `True.csv` 和 `Fake.csv`，并将`Fake.csv`命名修改为`fake.csv`，放置于项目根目录后再运行实验脚本。
+请前往上方链接下载 `True.csv` 和 `Fake.csv`，将 `Fake.csv` 重命名为 `fake.csv`，放置于项目根目录后再运行实验脚本。
 
 > 数据集因体积过大（>100MB）未上传至仓库，符合 GitHub 文件大小限制规范。
+
 ## 核心结果
 
 | 模型 | 类别 | Accuracy | F1 | AUC |
@@ -31,28 +33,16 @@
 ## 项目结构
 
 ```
-project/
-├── src/                                # 源代码
-│   ├── 01_eda.py                       # 数据探索
-│   ├── 02_preprocess.py                # 数据预处理
-│   ├── 03_train_baseline.py            # TF-IDF + 三个基线模型
-│   ├── 04_train_lstm.py                # NumPy 实现的 LSTM/Bi-LSTM (沙箱可跑)
-│   ├── 04b_train_lstm_pytorch.py       # PyTorch 实现的 LSTM/Bi-LSTM (本地跑全量)
-│   ├── 05_compare.py                   # 模型综合对比
-│   ├── 06_predict.py                   # 推理 demo（命令行）
-│   ├── app.py                          # Gradio Web 交互界面
-│   └── build_report.js                 # 报告生成 (docx-js)
-├── results/                            # 模型权重、指标、序列化数据
-│   ├── baseline_metrics.json
-│   ├── baseline_results.csv
-│   ├── best_baseline.pkl               # 训练好的最佳基线 (Linear SVM)
-│   ├── lstm_history.json
-│   ├── lstm_metrics.json
-│   ├── all_models_metrics.csv
-│   ├── preprocessed.npz                # 清洗后的文本与标签
-│   ├── sequences.npz                   # 整数序列 (供 LSTM 使用)
-│   └── vocab.pkl                       # 词表
-├── figures/                            # 11 张可视化图表
+fake-news-detection/
+├── 01_eda.py                       # 数据探索
+├── 02_preprocess.py                # 数据预处理
+├── 03_train_baseline.py            # TF-IDF + 三个基线模型
+├── 04_train_lstm.py                # NumPy 实现的 LSTM/Bi-LSTM（无需深度学习框架）
+├── 04b_train_lstm_pytorch.py       # PyTorch 实现的 LSTM/Bi-LSTM（本地跑全量）
+├── 05_compare.py                   # 模型综合对比
+├── 06_predict.py                   # 推理 demo（命令行）
+├── app.py                          # Gradio Web 交互界面
+├── figures/                        # 11 张可视化图表
 │   ├── 01_label_distribution.png
 │   ├── 02_subject_distribution.png
 │   ├── 03_text_length.png
@@ -64,25 +54,37 @@ project/
 │   ├── 09_lstm_confusion.png
 │   ├── 10_all_models_compare.png
 │   └── 11_models_radar.png
-└── report/
-    └── 社交媒体虚假新闻检测 (1).pdf
+├── results/                        # 运行脚本后自动生成，无需手动创建
+│   ├── baseline_metrics.json
+│   ├── baseline_results.csv
+│   ├── all_models_metrics.csv
+│   ├── lstm_history.json
+│   ├── lstm_metrics.json
+│   ├── best_baseline.pkl           # 训练好的最佳基线 (Linear SVM)
+│   ├── preprocessed.npz            # 清洗后的文本与标签
+│   ├── sequences.npz               # 整数序列（供 LSTM 使用）
+│   └── vocab.pkl                   # 词表
+├── .gitignore
+└── README.md
 ```
+
+> `results/` 目录下的 `.pkl` / `.npz` 文件体积较大，已在 `.gitignore` 中排除。运行脚本后会自动生成。
 
 ## 运行环境
 
-最小依赖（沙箱内已经跑通的版本）：
+最小依赖（无需深度学习框架）：
 
 ```bash
 pip install numpy pandas scikit-learn matplotlib seaborn
 ```
 
-可选 (运行 PyTorch 版本)：
+可选（运行 PyTorch 版本）：
 
 ```bash
 pip install torch
 ```
 
-可选 (运行 Web 界面)：
+可选（运行 Web 界面）：
 
 ```bash
 pip install gradio
@@ -92,25 +94,25 @@ pip install gradio
 
 ```bash
 # 1) 数据探索
-python src/01_eda.py
+python 01_eda.py
 
 # 2) 预处理
-python src/02_preprocess.py
+python 02_preprocess.py
 
 # 3) 训练 3 个基线
-python src/03_train_baseline.py
+python 03_train_baseline.py
 
-# 4) 训练 LSTM / Bi-LSTM (NumPy 版, 任何环境可跑)
-python src/04_train_lstm.py
+# 4) 训练 LSTM / Bi-LSTM（NumPy 版，任何环境可跑）
+python 04_train_lstm.py
 
 # 4b) 可选 - PyTorch 全量数据版本
-python src/04b_train_lstm_pytorch.py --epochs 4 --max_len 300
+python 04b_train_lstm_pytorch.py --epochs 4 --max_len 300
 
 # 5) 综合对比图
-python src/05_compare.py
+python 05_compare.py
 
 # 6) 推理 demo（命令行）
-python src/06_predict.py --text "WASHINGTON (Reuters) - The U.S. Senate ..."
+python 06_predict.py --text "WASHINGTON (Reuters) - The U.S. Senate ..."
 
 # 7) Web 交互界面
 python app.py
@@ -122,11 +124,11 @@ python app.py
 **命令行：**
 
 ```
-$ python src/06_predict.py --text "WASHINGTON (Reuters) - The U.S. Senate on Tuesday..."
+$ python 06_predict.py --text "WASHINGTON (Reuters) - The U.S. Senate on Tuesday..."
 [loaded] best baseline = LinearSVM
 Prediction: Real  (confidence ≈ 0.8758)
 
-$ python src/06_predict.py --text "BREAKING: Hillary Clinton was caught running a child trafficking ring..."
+$ python 06_predict.py --text "BREAKING: Hillary Clinton was caught running a child trafficking ring..."
 [loaded] best baseline = LinearSVM
 Prediction: Fake  (confidence ≈ 0.8849)
 ```
@@ -137,7 +139,7 @@ Prediction: Fake  (confidence ≈ 0.8849)
 
 ## 关键发现
 
-1. **数据集本身可分性极高**：来源差异 (Reuters vs. 不可靠站点) 使得 TF-IDF 配上线性模型即可达到 99% 准确率。
+1. **数据集本身可分性极高**：来源差异（Reuters vs. 不可靠站点）使得 TF-IDF 配上线性模型即可达到 99% 准确率。
 2. **Bi-LSTM 大幅优于单向 LSTM**：从 90.4% 提升至 99.8%，印证了双向上下文建模的价值。
 3. **效率最优解是 Linear SVM**：F1=0.9981、训练 2.7 秒、推理毫秒级，是该任务的工程最优选择。
 4. **Bi-LSTM 是深度方案的良好起点**：可便捷扩展到 Attention、Transformer，以及多模态架构。
@@ -147,5 +149,5 @@ Prediction: Fake  (confidence ≈ 0.8849)
 - 引入 LIAR、FakeNewsNet 等多源数据集，验证跨源泛化能力
 - 升级到 BERT / RoBERTa 等预训练模型
 - 引入图片、视频、转发图等多模态信息
-- 增加可解释性 (LIME / SHAP / Attention 可视化)
+- 增加可解释性（LIME / SHAP / Attention 可视化）
 - 评估对抗鲁棒性
