@@ -11,7 +11,13 @@
 - 5 个模型的训练与对比 (Logistic Regression / Linear SVM / Random Forest / LSTM / Bi-LSTM)
 - 推理 demo（命令行 + Gradio Web 交互界面）
 - 完整的 Word 实验报告
+## 数据集
 
+本项目使用 [ISOT Fake News Dataset](https://onlineacademiccommunity.uvic.ca/isot/2022/11/27/fake-news-detection-datasets/)。
+
+请前往上方链接下载 `True.csv` 和 `Fake.csv`，并将`Fake.csv`命名修改为`fake.csv`，放置于项目根目录后再运行实验脚本。
+
+> 数据集因体积过大（>100MB）未上传至仓库，符合 GitHub 文件大小限制规范。
 ## 核心结果
 
 | 模型 | 类别 | Accuracy | F1 | AUC |
