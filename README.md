@@ -65,7 +65,7 @@ project/
 │   ├── 10_all_models_compare.png
 │   └── 11_models_radar.png
 └── report/
-    └── 实验报告_社交媒体虚假新闻检测.docx
+    └── 社交媒体虚假新闻检测 (1).pdf
 ```
 
 ## 运行环境
