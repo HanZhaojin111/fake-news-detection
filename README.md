@@ -4,7 +4,7 @@
 
 ## 项目简介
 
-本项目以 [ISOT Fake News Dataset](https://www.uvic.ca/ecs/ece/isot/datasets/fake-news/) (44,898 条新闻) 为研究对象，构建了一套完整的虚假新闻自动检测系统，包含：
+本项目以 [ISOT Fake News Dataset](https://onlineacademiccommunity.uvic.ca/isot/2022/11/27/fake-news-detection-datasets/) (44,898 条新闻) 为研究对象，构建了一套完整的虚假新闻自动检测系统，包含：
 
 - 探索性数据分析 (EDA)
 - 文本预处理与序列化
